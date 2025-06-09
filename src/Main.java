@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Properties;
+import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -22,17 +23,50 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        Scanner sc = new Scanner(System.in);
+        int sair = 1;
+        double amount = 0;
+
         Properties props = new Properties();
         props.load(new FileInputStream("config.properties"));
         String apiKey = props.getProperty("api.key");
 
+        System.out.println("************************************************\n" +
+                "Seja bem-vindo(a) ao Conversor de Moedas\n");
+
+        while(sair == 1){
+
+            System.out.println("1) Dólar =>> Peso argentino");
+            System.out.println("2) Peso argentino =>> Dólar");
+            System.out.println("3) Dólar =>> Real brasileiro");
+            System.out.println("4) Real brasileiro =>> Dólar");
+            System.out.println("5) Dólar =>> Peso colombiano");
+            System.out.println("6) Peso colombiano =>> Dólar");
+            System.out.println("7) Sair");
+
+            System.out.println("Escolha uma opção válida:\n" +
+                    "************************************************");
+            int opcao = sc.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    System.out.println("Digite o valor que deseja converter:");
+
+
+                    break;
+                case 7:
+                    sair = 0;
+
+            }
+        }
+
+
         // Setting URL
-        String url_str = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/USD";
+        //String url_str = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/USD";
+        String url_str = "https://v6.exchangerate-api.com/v6/" + apiKey + "/pair/USD/BRL/100.00";
 
         //Uma nova requisição
-
         HttpClient client = HttpClient.newHttpClient();
-
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(url_str))
                 .GET()
@@ -43,13 +77,16 @@ public class Main {
 
             if (response.statusCode() == 200) {
                 String json = response.body();
-
                 // Converter JSON para objeto Java
                 Gson gson = new Gson();
                 ExchangerateApi exchangerate_api = gson.fromJson(json, ExchangerateApi.class);
 
                 System.out.println("Objeto convertido:");
-                System.out.println(exchangerate_api);
+
+                //double conversao = exchangerate_api.conversion_rates().BRL();
+
+                //System.out.println(exchangerate_api.conversion_rates().BRL());
+                System.out.println(exchangerate_api.conversion_result());
             } else {
                 System.out.println("Erro: " + response.statusCode());
             }
@@ -57,6 +94,8 @@ public class Main {
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
+
+        sc.close();
 
     }
 }
