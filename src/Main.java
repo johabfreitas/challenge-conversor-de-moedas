@@ -27,9 +27,14 @@ public class Main {
         int sair = 1;
         double amount = 0;
 
+
+
         Properties props = new Properties();
         props.load(new FileInputStream("config.properties"));
         String apiKey = props.getProperty("api.key");
+
+        var exchangerateApiService = new ExchangerateApiService();
+        exchangerateApiService.aplicarConversao(apiKey, ARS, BRL);
 
         System.out.println("************************************************\n" +
                 "Seja bem-vindo(a) ao Conversor de Moedas\n");
@@ -54,16 +59,19 @@ public class Main {
 
 
                     break;
+                case 2:
+                case 3:
+                case 4:
+                case 5:
+                case 6:
                 case 7:
                     sair = 0;
-
             }
         }
 
-
         // Setting URL
-        //String url_str = "https://v6.exchangerate-api.com/v6/" + apiKey + "/latest/USD";
-        String url_str = "https://v6.exchangerate-api.com/v6/" + apiKey + "/pair/USD/BRL/100.00";
+        final String URL_INICIAL = "https://v6.exchangerate-api.com/v6/";
+        String url_str = URL_INICIAL + apiKey + "/pair/USD/BRL/" + amount;
 
         //Uma nova requisição
         HttpClient client = HttpClient.newHttpClient();
@@ -82,15 +90,10 @@ public class Main {
                 ExchangerateApi exchangerate_api = gson.fromJson(json, ExchangerateApi.class);
 
                 System.out.println("Objeto convertido:");
-
-                //double conversao = exchangerate_api.conversion_rates().BRL();
-
-                //System.out.println(exchangerate_api.conversion_rates().BRL());
                 System.out.println(exchangerate_api.conversion_result());
             } else {
                 System.out.println("Erro: " + response.statusCode());
             }
-
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
