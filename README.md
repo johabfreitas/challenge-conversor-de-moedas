@@ -12,7 +12,9 @@ Este projeto Java realiza a conversão de moedas utilizando a [ExchangeRate API]
 ## 📁 Estrutura do Projeto
 src/
 ├── ExchangerateApiService.java # Serviço principal de conversão
+
 ├── ExchangerateApi.java # Classe modelo para mapeamento do JSON (POJO)
+
 └── config.properties # Arquivo de configuração com a chave da API
 
 
@@ -32,16 +34,14 @@ src/
    api.key=SUA_CHAVE_AQUI
 
 3. Exemplo de uso do serviço:
-
-   `public class Main {`
-   	   `public static void main(String[] args) throws IOException {`
-   	     `ExchangerateApiService service = new ExchangerateApiService();`
-   	`	    service.aplicarConversao("USD", "BRL", 100);`
-   	       `}`
-   `}`
+```java
+   public class Main {
+   	   public static void main(String[] args) throws IOException {
+   	     ExchangerateApiService service = new ExchangerateApiService();
+   		    service.aplicarConversao("USD", "BRL", 100);
+   	       }
+    }
+```
 
 4. Resultado esperado:
    Valor 100.00[USD] corresponde ao valor final de =>> 532.80[BRL]
-
-
-
