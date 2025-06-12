@@ -1,7 +1,6 @@
 import com.google.gson.Gson;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -11,15 +10,14 @@ import java.util.Properties;
 
 public class ExchangerateApiService {
 
-    public Double aplicarConversao(String moedaEntrada, String moedaSaida, Double amount ) throws IOException {
+    public void aplicarConversao(String moedaEntrada, String moedaSaida, double amount ) throws IOException {
 
         //Leitura de arquivo externo que contem a chave API para requisição
         Properties props = new Properties();
         props.load(new FileInputStream("config.properties"));
         String apiKey = props.getProperty("api.key");
 
-        final String URL_INICIAL = "https://v6.exchangerate-api.com/v6/";
-        String url_str = URL_INICIAL + apiKey + "/pair/" + moedaEntrada + "/" + moedaSaida + "/" + amount;
+        String url_str = "https://v6.exchangerate-api.com/v6/" + apiKey + "/pair/" + moedaEntrada + "/" + moedaSaida + "/" + amount;
 
         //Uma nova requisição
         HttpClient client = HttpClient.newHttpClient();
@@ -37,9 +35,12 @@ public class ExchangerateApiService {
                 Gson gson = new Gson();
                 ExchangerateApi exchangerate_api = gson.fromJson(json, ExchangerateApi.class);
 
-                System.out.println("Objeto convertido:");
-                System.out.println(exchangerate_api.conversion_result());
-                System.out.println(String.format("Valor .2%f[%s] corresponde ao valor final de =>> .%2f[%s]",));
+                String base_code = exchangerate_api.base_code();
+                String target_code = exchangerate_api.target_code();
+                double result = exchangerate_api.conversion_result();
+
+                System.out.println(String.format("Valor %.2f[%s] corresponde ao valor final de =>> %.2f[%s]", amount, base_code, result, target_code));
+                System.out.println();
             } else {
                 System.out.println("Erro: " + response.statusCode());
             }

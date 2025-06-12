@@ -1,20 +1,5 @@
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.Properties;
+import java.util.Locale;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -23,18 +8,13 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
+        Locale.setDefault(Locale.US);
         Scanner sc = new Scanner(System.in);
+
+        ExchangerateApiService exchangerateApiService = new ExchangerateApiService();
+
         int sair = 1;
         double amount = 0;
-
-
-
-        Properties props = new Properties();
-        props.load(new FileInputStream("config.properties"));
-        String apiKey = props.getProperty("api.key");
-
-        var exchangerateApiService = new ExchangerateApiService();
-        exchangerateApiService.aplicarConversao(apiKey, ARS, BRL);
 
         System.out.println("************************************************\n" +
                 "Seja bem-vindo(a) ao Conversor de Moedas\n");
@@ -56,46 +36,49 @@ public class Main {
             switch (opcao) {
                 case 1:
                     System.out.println("Digite o valor que deseja converter:");
+                    amount = sc.nextDouble();
 
+                    exchangerateApiService.aplicarConversao("USD", "ARS", amount);
 
                     break;
                 case 2:
+                    System.out.println("Digite o valor que deseja converter:");
+                    amount = sc.nextDouble();
+
+                    exchangerateApiService.aplicarConversao("ARS", "USD", amount);
+
+                    break;
                 case 3:
+                    System.out.println("Digite o valor que deseja converter:");
+                    amount = sc.nextDouble();
+
+                    exchangerateApiService.aplicarConversao("USD", "BRL", amount);
+
+                    break;
                 case 4:
+                    System.out.println("Digite o valor que deseja converter:");
+                    amount = sc.nextDouble();
+
+                    exchangerateApiService.aplicarConversao("BRL", "USD", amount);
+
+                    break;
                 case 5:
+                    System.out.println("Digite o valor que deseja converter:");
+                    amount = sc.nextDouble();
+
+                    exchangerateApiService.aplicarConversao("USD", "COP", amount);
+
+                    break;
                 case 6:
+                    System.out.println("Digite o valor que deseja converter:");
+                    amount = sc.nextDouble();
+
+                    exchangerateApiService.aplicarConversao("COP", "USD", amount);
+
+                    break;
                 case 7:
                     sair = 0;
             }
-        }
-
-        // Setting URL
-        final String URL_INICIAL = "https://v6.exchangerate-api.com/v6/";
-        String url_str = URL_INICIAL + apiKey + "/pair/USD/BRL/" + amount;
-
-        //Uma nova requisição
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(url_str))
-                .GET()
-                .build();
-
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-            if (response.statusCode() == 200) {
-                String json = response.body();
-                // Converter JSON para objeto Java
-                Gson gson = new Gson();
-                ExchangerateApi exchangerate_api = gson.fromJson(json, ExchangerateApi.class);
-
-                System.out.println("Objeto convertido:");
-                System.out.println(exchangerate_api.conversion_result());
-            } else {
-                System.out.println("Erro: " + response.statusCode());
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
 
         sc.close();
