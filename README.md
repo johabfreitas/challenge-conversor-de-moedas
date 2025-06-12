@@ -11,11 +11,12 @@ Este projeto Java realiza a conversão de moedas utilizando a [ExchangeRate API]
 
 ## 📁 Estrutura do Projeto
 src/
-├── ExchangerateApiService.java # Serviço principal de conversão
 
-├── ExchangerateApi.java # Classe modelo para mapeamento do JSON (POJO)
+​	├── ExchangerateApiService.java # Serviço principal de conversão
 
-└── config.properties # Arquivo de configuração com a chave da API
+​	├── ExchangerateApi.java # Classe modelo para mapeamento do JSON (POJO)
+
+​	└── config.properties # Arquivo de configuração com a chave da API
 
 
 ## ⚙️ Pré-requisitos
