@@ -32,16 +32,16 @@ src/
    api.key=SUA_CHAVE_AQUI
 
 3. Exemplo de uso do serviço:
-   public class Main {
-   public static void main(String[] args) throws IOException {
-   ExchangerateApiService service = new ExchangerateApiService();
-   service.aplicarConversao("USD", "BRL", 100);
-   }
-   }
+
+   `public class Main {`
+   	   `public static void main(String[] args) throws IOException {`
+   	     `ExchangerateApiService service = new ExchangerateApiService();`
+   	`	    service.aplicarConversao("USD", "BRL", 100);`
+   	       `}`
+   `}`
 
 4. Resultado esperado:
    Valor 100.00[USD] corresponde ao valor final de =>> 532.80[BRL]
-
 
 
 
