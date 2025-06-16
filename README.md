@@ -4,7 +4,7 @@ Este projeto Java realiza a conversão de moedas utilizando a [ExchangeRate API]
 
 ## 🚀 Tecnologias Utilizadas
 
-- Java 11+ (uso do `HttpClient`)
+- Java 21 (uso do `HttpClient`)
 - Gson (para desserialização do JSON)
 - ExchangeRate API (versão v6)
 - Arquivo de configuração `.properties`
